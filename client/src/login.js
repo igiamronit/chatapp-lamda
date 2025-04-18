@@ -15,10 +15,26 @@ function Login({ user, onLogin }) {
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
+    // Add these lines to configure popup behavior
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    });
+    
     try {
-      await signInWithPopup(auth, provider);
+      // Use a more reliable approach
+      const result = await signInWithPopup(auth, provider);
+      // No need to call onLogin here - the onAuthStateChanged will handle it
+      console.log("Sign-in successful");
     } catch (error) {
-      alert("Google Sign-In failed.");
+      // Improved error handling
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log("Sign-in popup was closed by the user");
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        console.log("Sign-in popup request was cancelled");
+      } else {
+        console.error("Google Sign-In failed:", error);
+        alert("Google Sign-In failed. Please try again.");
+      }
     }
   };
 

@@ -241,3 +241,34 @@ body {
   gap: 2rem; /* Adds spacing between the sections */
   align-items: center; /* Centers the sections horizontally */
 }
+
+.chat-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  background-color: white;
+  border-top: 1px solid #ccc;
+  flex-wrap: wrap; /* this makes items stack on smaller screens */
+}
+
+.chat-footer input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.chat-footer input[type="file"] {
+  flex-shrink: 0;
+}
+
+.chat-footer button {
+  padding: 10px 15px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

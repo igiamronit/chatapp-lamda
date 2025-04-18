@@ -8,35 +8,72 @@ import {
   orderBy,
   onSnapshot,
 } from 'firebase/firestore';
+//import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+//import {storage} from './firebaseConfig';
+
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const messagesEndRef = useRef(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const sendMessage = async () => {
-    if (currentMessage.trim() !== '') {
+    if (currentMessage.trim() !== '' || imageUrl) {
       const messageData = {
         room,
         author: username,
-        message: currentMessage,
+        message: imageUrl ? null : currentMessage,
+        image: imageUrl || null, // Use the image URL if it's an image message
         time: new Date().toLocaleTimeString(),
         timestamp: serverTimestamp(),
       };
 
       try {
         await addDoc(collection(db, 'rooms', room, 'messages'), messageData);
+        socket.emit('send_message', messageData);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-
-      socket.emit('send_message', messageData);
+      console.log("Sending message:", {
+        message: imageUrl ? null : currentMessage,
+        image: imageUrl || null,
+      });
       setCurrentMessage('');
+      setImageUrl(null); // Reset image URL after sending the message
     }
+  };
+
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+    
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+  
+    try {
+      const response = await fetch('https://api.imgbb.com/1/upload?key=4f494fa3be2a8c7ee8c1d6850ed8b345', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const result = await response.json();
+  
+      if (result.success) {
+        setImageUrl(result.data.url);
+      } else {
+        console.error('Image upload failed:', result);
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+    setUploading(false);
   };
 
   useEffect(() => {
@@ -85,7 +122,18 @@ function Chat({ socket, username, room }) {
             >
               <div>
                 <div className='message-content'>
-                  <p>{msg.message}</p>
+                {imageUrl && (
+                  <div style={{ margin: '10px 0' }}>
+                    <img src={imageUrl} alt="preview" style={{ maxWidth: '100px', borderRadius: '8px' }} />
+                  </div>
+                )}
+
+                  {/* Display image if imageUrl exists, otherwise show text */}
+                  {msg.image ? (
+                    <img src={msg.image} alt="sent-img" style={{ maxWidth: '200px', borderRadius: '8px' }} />
+                  ) : (
+                    <p>{msg.message}</p>
+                  )}
                 </div>
                 <div className='message-meta'>
                   <p id='time'>{msg.time}</p>
@@ -99,6 +147,12 @@ function Chat({ socket, username, room }) {
       </div>
 
       <div className='chat-footer'>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => handleImageUpload(e.target.files[0])}
+      />
+
         <input
           type='text'
           placeholder='Type your message...'
@@ -110,7 +164,9 @@ function Chat({ socket, username, room }) {
             }
           }}
         />
-        <button onClick={sendMessage}>&#9658;</button>
+        <button onClick={sendMessage} disabled={uploading}>
+          &#9658;
+        </button>
       </div>
     </div>
   );

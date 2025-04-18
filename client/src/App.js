@@ -1,25 +1,46 @@
 import './App.css';
 import { io } from 'socket.io-client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Chat from './chat';
+import Login from './login.js'
 import { db } from './firebaseConfig';
 import { doc, setDoc, getDoc} from 'firebase/firestore';
 
 // backend URL
 const socket = io("https://chatapp-ylh8.onrender.com");
 
+
+
+
+
 function App() {
-  //use state to manage username, room, and chat visibility
-  const [username, setUsername] = useState("");
+
+  const [user, setUser] = useState(null); //for google auth
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
+  // ADD THIS EFFECT FOR SOCKET CONNECTION DEBUGGING
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Socket connected:', socket.id);
+    });
+    
+    socket.on('disconnect', () => {
+      console.log('Socket disconnected');
+    });
+    
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
+  
+
   //function to create a room
   const createRoom = async() =>{
-    if(username.trim() !== "" && room.trim()!== ""){
+    if( user && room.trim()!== ""){
       try{
         await setDoc(doc(db, "rooms", room), {roomID: room});
-        setUsername("");
         setRoom("");
         joinRoom();
       }catch(err){
@@ -32,7 +53,7 @@ function App() {
   }
   // function to join a room
   const joinRoom = async () => {
-    if (username.trim() !== "" && room.trim() !== "") {
+    if (user && room.trim() !== "") {
       try {
         const roomDoc = await getDoc(doc(db, "rooms", room)); // Check if room exists in Firestore
         if (roomDoc.exists()) {
@@ -56,6 +77,11 @@ function App() {
     }
   };
 
+  //showing login window if not logged in
+  if(!user){
+    return <Login onLogin={setUser} />;
+  }
+
   return (
     <div className="App">
       {!showChat ? (
@@ -65,12 +91,6 @@ function App() {
         {/*container for create room*/}
         <div className='createRoomContainer'>
           <h1>Create Room</h1>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, createRoom)} // Call createRoom on Enter key
-          />
           <input
             type="text"
             placeholder="Enter room ID"
@@ -84,23 +104,17 @@ function App() {
           <h3>Join Room</h3>
           <input
             type="text"
-            placeholder="Enter your name"
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, joinRoom)}
-          />
-          <input
-            type="text"
             placeholder="Enter room ID"
             onChange={(e) => setRoom(e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, joinRoom)}
           />
           <button onClick={joinRoom}>Join</button>
         </div>
+        <Login user={user} onLogin={setUser} />
       </div>  
       ) : (
-        <Chat socket={socket} username={username} room={room} />
-      //show this if setShowChat is true
-      //Chat component
+
+        <Chat socket={socket} username={user.displayName} room={room} />
       )}
     </div>
   );

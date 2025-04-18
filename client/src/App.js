@@ -7,10 +7,12 @@ import Chat from './chat';
 const socket = io("https://chatapp-ylh8.onrender.com");
 
 function App() {
+  //use state to manage username, room, and chat visibility
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
+  // function to join a room
   const joinRoom = () => {
     if (username.trim() !== "" && room.trim() !== "") {
       socket.emit('join_room', room);
@@ -21,8 +23,10 @@ function App() {
   return (
     <div className="App">
       {!showChat ? (
-        <div className='roomContainer'>
-        
+        //show this if setShowChat is false(home page)
+        //container containing both create room and join room
+        <div className='roomContainer'> 
+        {/*container for create room*/}
         <div className='createRoomContainer'>
           <h1>Create Room</h1>
           <input
@@ -37,6 +41,7 @@ function App() {
           />
           <button onClick={joinRoom}>Join</button>
         </div>
+        {/*container for join room*/}
         <div className="joinChatContainer">
           <h3>Join Room</h3>
           <input
@@ -54,6 +59,8 @@ function App() {
       </div>  
       ) : (
         <Chat socket={socket} username={username} room={room} />
+      //show this if setShowChat is true
+      //Chat component
       )}
     </div>
   );

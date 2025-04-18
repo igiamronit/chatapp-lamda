@@ -41,7 +41,7 @@ function App() {
     if( user && room.trim()!== ""){
       try{
         await setDoc(doc(db, "rooms", room), {roomID: room});
-        setRoom("");
+        //setRoom("");
         joinRoom();
       }catch(err){
       console.error(err);

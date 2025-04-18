@@ -2,8 +2,7 @@ import './App.css';
 import { io } from 'socket.io-client';
 import React, { useEffect, useState } from 'react';
 import Chat from './chat';
-import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+import Login from './login.js'
 
 // backend URL
 const socket = io("https://chatapp-ylh8.onrender.com");
@@ -17,31 +16,6 @@ function App() {
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
-  useEffect(() =>{
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      alert("Google Sign-In failed.");
-    }
-  };
-
-  const handleSignOut = async() => {
-    try {
-      await signOut(auth);
-      setShowChat(false);
-      setRoom("");
-    } catch(error){
-      alert("Sign out failed")
-    }
-  };
 
   const joinRoom = () => {
     if (user && room.trim() !== "") {
@@ -50,17 +24,15 @@ function App() {
     }
   };
 
+  //showing login window if not logged in
+  if(!user){
+    return <Login onLogin={setUser} />;
+  }
+
   return (
     <div className="App">
-      {!user ? (
-      <div style={{ textAlign: "center", marginTop: "100px" }}>
-        <button onClick={handleGoogleSignIn} style={{ fontSize: "18px", padding: "10px 20px" }}>
-          Sign in with Google
-        </button>
-      </div>
-    ):!showChat ? (
+      {!showChat ? (
         <div className='roomContainer'>
-        
         <div className='createRoomContainer'>
           <h1>Create Room</h1>
           <input
@@ -79,10 +51,7 @@ function App() {
           />
           <button onClick={joinRoom}>Join</button>
         </div>
-        <div style={{marginTop:"20px"}}>
-          <span> Signed in as: {user.displayName}</span>
-          <button onClick={handleSignOut} style={{marginLeft: "10px"}}> Sign Out</button>
-        </div>
+        <Login user={user} onLogin={setUser} />
       </div>  
       ) : (
         <Chat socket={socket} username={user.displayName} room={room} />

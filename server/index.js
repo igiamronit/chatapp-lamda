@@ -29,15 +29,6 @@ io.on('connection', (socket) => {
         socket.to(data.room).emit('receive_message', data);
     });
 
-    socket.on('typing', ({ room, username }) => {
-        socket.to(room).emit('typing', { username });
-        console.log(`${username} is typing in room ${room}`);
-    });
-
-    socket.on('stop_typing', ({ room, username }) => {
-        socket.to(room).emit('stop_typing', { username });
-        console.log(`${username} stopped typing in room ${room}`);
-    });
 
     socket.on('disconnect', () => {
         console.log('User disconnected', socket.id);

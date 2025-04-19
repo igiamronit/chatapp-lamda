@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore';
 import EmojiPicker from 'emoji-picker-react';
 import './App.css';
+import { FaPaperPlane, FaUpload } from 'react-icons/fa';
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
@@ -20,30 +21,63 @@ function Chat({ socket, username, room }) {
   const messagesEndRef = useRef(null);
   const emojiRef = useRef(null);
   const typingTimeout = useRef(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const sendMessage = async () => {
-    if (currentMessage.trim() !== '') {
+    if (currentMessage.trim() !== '' || imageUrl) {
       const messageData = {
         room,
         author: username,
-        message: currentMessage,
+        message: imageUrl ? null : currentMessage,
+        image: imageUrl || null, // Use the image URL if it's an image message
         time: new Date().toLocaleTimeString(),
         timestamp: serverTimestamp(),
       };
 
       try {
         await addDoc(collection(db, 'rooms', room, 'messages'), messageData);
+        socket.emit('send_message', messageData);
       } catch (e) {
         console.error('Error adding document: ', e);
       }
-
-      socket.emit('send_message', messageData);
+      console.log("Sending message:", {
+        message: imageUrl ? null : currentMessage,
+        image: imageUrl || null,
+      });
       setCurrentMessage('');
+      setImageUrl(null); // Reset image URL after sending the message
     }
+  };
+
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+    
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+  
+    try {
+      const response = await fetch('https://api.imgbb.com/1/upload?key=4f494fa3be2a8c7ee8c1d6850ed8b345', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const result = await response.json();
+  
+      if (result.success) {
+        setImageUrl(result.data.url);
+      } else {
+        console.error('Image upload failed:', result);
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+    setUploading(false);
   };
 
   useEffect(() => {
@@ -115,8 +149,14 @@ function Chat({ socket, username, room }) {
               key={index}
             >
               <div>
-                <div className='message-content'>
-                  <p>{msg.message}</p>
+                <div className='message-content' id= {msg.image?'image' : ''}>
+
+                  {/* Display image if imageUrl exists, otherwise show text */}
+                  {msg.image ? (
+                    <img src={msg.image} alt="sent-img" style={{ maxWidth: '200px', borderRadius: '8px' }} />
+                  ) : (
+                    <p>{msg.message}</p>
+                  )}
                 </div>
                 <div className='message-meta'>
                   <p id='time'>{msg.time}</p>
@@ -135,6 +175,7 @@ function Chat({ socket, username, room }) {
       </div>
 
       <div className='chat-footer'>
+
         <div className='emoji-picker-wrapper' ref={emojiRef}>
           <button
             className='emoji-toggle-button'
@@ -149,6 +190,24 @@ function Chat({ socket, username, room }) {
             </div>
           )}
         </div>
+
+        <label htmlFor="image-upload">
+          <FaUpload />
+        </label>
+        <input
+          id="image-upload"
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleImageUpload(e.target.files[0])}
+        />
+        {/* Image Preview */}
+        {imageUrl && (
+          <div className="image-preview">
+            <img src={imageUrl} alt="preview" style={{ maxWidth: '100px', borderRadius: '8px' }} />
+            <button className="cancel-preview" onClick={() => setImageUrl(null)}>✖</button>
+          </div>
+        )}
+
 
         <input
           type='text'
@@ -166,7 +225,13 @@ function Chat({ socket, username, room }) {
           }}
         />
 
-        <button onClick={sendMessage}>&#9658;</button>
+
+//         <button onClick={sendMessage}>&#9658;</button> //uncomment it and comment below button if errors
+
+        <button onClick={sendMessage} disabled={uploading}>
+          <FaPaperPlane />
+        </button>
+
       </div>
     </div>
   );

@@ -2,6 +2,13 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
+
+//importing for authentication
+import { getAuth } from "firebase/auth"; 
+
+// TODO: Add SDKs for Firebase products that you want to use
+
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB3GMumLorZmr8ZuxwVxCx3aSSCCS3kXsI",
@@ -16,6 +23,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app); 
 
-export { db };
-export const backendUrl = "https://chatapp-ylh8.onrender.com";
+export{db, auth};
+
+

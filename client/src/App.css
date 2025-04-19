@@ -44,6 +44,7 @@ body {
 .joinChatContainer input:focus {
   border-color: #2e7d32;
 }
+
 .joinChatContainer button {
   width: 250px;
   height: 45px;
@@ -62,8 +63,8 @@ body {
 }
 
 .chat-window {
-  width: 380px;
-  height: 520px;
+  width: 90vw; /* Cover 90% of the screen width */
+  height: 80vh; /* Cover 80% of the screen height */
   background-color: white;
   border-radius: 20px;
   overflow: hidden;
@@ -74,12 +75,13 @@ body {
 
 .chat-header {
   background-color: #263238;
-  padding: 15px 20px;
+  padding: 20px;
+  text-align: center;
 }
 
 .chat-header p {
   color: white;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   margin: 0;
   font-weight: 600;
 }
@@ -87,7 +89,7 @@ body {
 .chat-body {
   flex: 1;
   background-color: #f5f5f5;
-  padding: 10px;
+  padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -96,7 +98,7 @@ body {
 .message-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px; /* Add spacing between messages */
   min-height: 100%;
 }
 
@@ -113,11 +115,11 @@ body {
 }
 
 .message-content {
-  max-width: 70%;
-  padding: 10px 15px;
+  max-width: 60%;
+  padding: 15px 20px;
   border-radius: 18px;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.5;
   word-break: break-word;
   background-color: #43a047;
   color: white;
@@ -129,9 +131,9 @@ body {
 }
 
 .message-meta {
-  font-size: 12px;
+  font-size: 14px;
   color: #555;
-  margin-top: 4px;
+  margin-top: 6px;
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
@@ -144,39 +146,90 @@ body {
 
 .chat-footer {
   display: flex;
-  padding: 10px;
+  align-items: center;
+  padding: 15px;
   border-top: 1px solid #ccc;
   background-color: #fff;
+  gap: 10px;
 }
 
-.chat-footer input {
+.chat-footer input[type="text"] {
   flex: 1;
-  padding: 10px 15px;
+  padding: 15px;
   border-radius: 25px;
   border: 1px solid #ccc;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
-  transition: 0.2s ease;
 }
 
-.chat-footer input:focus {
-  border-color: #43a047;
+.chat-footer input[type="file"] {
+  display: none; /* Hide the file input */
+}
+
+.chat-footer label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background-color: #43a047;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-footer label:hover {
+  background-color: #2e7d32;
 }
 
 .chat-footer button {
-  margin-left: 10px;
+  padding: 15px 20px;
   background-color: #43a047;
-  border: none;
   color: white;
-  padding: 0 20px;
-  border-radius: 50%;
-  font-size: 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .chat-footer button:hover {
   background-color: #2e7d32;
+}
+
+#image {
+  background-color: transparent; /* Remove background */
+  padding: 0; /* Remove padding */
+  box-shadow: none; /* Remove shadow */
+}
+
+.image-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.image-preview img {
+  max-width: 100px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-preview {
+  background: none;
+  border: none;
+  color: #f44336;
+  font-size: 18px;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.2s ease;
+}
+
+.cancel-preview:hover {
+  color: #d32f2f;
 }
 
 .chat-body::-webkit-scrollbar {
@@ -233,42 +286,4 @@ body {
 
 .createRoomContainer button:hover {
   background-color: #2e7d32;
-}
-
-.roomContainers {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem; /* Adds spacing between the sections */
-  align-items: center; /* Centers the sections horizontally */
-}
-
-.chat-footer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-  gap: 10px;
-  background-color: white;
-  border-top: 1px solid #ccc;
-  flex-wrap: wrap; /* this makes items stack on smaller screens */
-}
-
-.chat-footer input[type="text"] {
-  flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
-.chat-footer input[type="file"] {
-  flex-shrink: 0;
-}
-
-.chat-footer button {
-  padding: 10px 15px;
-  background-color: green;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
 }

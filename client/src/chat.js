@@ -8,8 +8,7 @@ import {
   orderBy,
   onSnapshot,
 } from 'firebase/firestore';
-//import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
-//import {storage} from './firebaseConfig';
+import { FaPaperPlane, FaUpload } from 'react-icons/fa';
 
 
 function Chat({ socket, username, room }) {
@@ -121,12 +120,7 @@ function Chat({ socket, username, room }) {
               key={index}
             >
               <div>
-                <div className='message-content'>
-                {imageUrl && (
-                  <div style={{ margin: '10px 0' }}>
-                    <img src={imageUrl} alt="preview" style={{ maxWidth: '100px', borderRadius: '8px' }} />
-                  </div>
-                )}
+                <div className='message-content' id= {msg.image?'image' : ''}>
 
                   {/* Display image if imageUrl exists, otherwise show text */}
                   {msg.image ? (
@@ -147,11 +141,22 @@ function Chat({ socket, username, room }) {
       </div>
 
       <div className='chat-footer'>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => handleImageUpload(e.target.files[0])}
-      />
+        <label htmlFor="image-upload">
+          <FaUpload />
+        </label>
+        <input
+          id="image-upload"
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleImageUpload(e.target.files[0])}
+        />
+        {/* Image Preview */}
+        {imageUrl && (
+          <div className="image-preview">
+            <img src={imageUrl} alt="preview" style={{ maxWidth: '100px', borderRadius: '8px' }} />
+            <button className="cancel-preview" onClick={() => setImageUrl(null)}>✖</button>
+          </div>
+        )}
 
         <input
           type='text'
@@ -165,7 +170,7 @@ function Chat({ socket, username, room }) {
           }}
         />
         <button onClick={sendMessage} disabled={uploading}>
-          &#9658;
+          <FaPaperPlane />
         </button>
       </div>
     </div>

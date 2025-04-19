@@ -16,17 +16,11 @@ function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [showEmojiSidebar, setShowEmojiSidebar] = useState(false);
-
-  const messagesEndRef = useRef(null);
-  const emojiRef = useRef(null);
   const messagesEndRef = useRef(null);
   const emojiRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  
-  
-  
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -37,7 +31,7 @@ function Chat({ socket, username, room }) {
         room,
         author: username,
         message: imageUrl ? null : currentMessage,
-        image: imageUrl || null, // Use the image URL if it's an image message
+        image: imageUrl || null,
         time: new Date().toLocaleTimeString(),
         timestamp: serverTimestamp(),
       };
@@ -48,30 +42,35 @@ function Chat({ socket, username, room }) {
       } catch (e) {
         console.error('Error adding document: ', e);
       }
-      console.log("Sending message:", {
+
+      console.log('Sending message:', {
         message: imageUrl ? null : currentMessage,
         image: imageUrl || null,
       });
+
       setCurrentMessage('');
-      setImageUrl(null); // Reset image URL after sending the message
+      setImageUrl(null);
     }
   };
 
   const handleImageUpload = async (file) => {
     if (!file) return;
-    
+
     setUploading(true);
     const formData = new FormData();
     formData.append('image', file);
-  
+
     try {
-      const response = await fetch('https://api.imgbb.com/1/upload?key=4f494fa3be2a8c7ee8c1d6850ed8b345', {
-        method: 'POST',
-        body: formData,
-      });
-  
+      const response = await fetch(
+        'https://api.imgbb.com/1/upload?key=4f494fa3be2a8c7ee8c1d6850ed8b345',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
       const result = await response.json();
-  
+
       if (result.success) {
         setImageUrl(result.data.url);
       } else {
@@ -131,11 +130,13 @@ function Chat({ socket, username, room }) {
               key={index}
             >
               <div>
-                <div className='message-content' id= {msg.image?'image' : ''}>
-
-                  {/* Display image if imageUrl exists, otherwise show text */}
+                <div className='message-content' id={msg.image ? 'image' : ''}>
                   {msg.image ? (
-                    <img src={msg.image} alt="sent-img" style={{ maxWidth: '200px', borderRadius: '8px' }} />
+                    <img
+                      src={msg.image}
+                      alt='sent-img'
+                      style={{ maxWidth: '200px', borderRadius: '8px' }}
+                    />
                   ) : (
                     <p>{msg.message}</p>
                   )}
@@ -150,63 +151,69 @@ function Chat({ socket, username, room }) {
           <div ref={messagesEndRef} />
         </div>
       </div>
-
       <div className='chat-footer'>
+  <div className='emoji-picker-wrapper' ref={emojiRef}>
+    <button
+      className='emoji-toggle-button'
+      onClick={() => setShowEmojiSidebar((prev) => !prev)}
+    >
+      😊
+    </button>
 
-        <div className='emoji-picker-wrapper' ref={emojiRef}>
-          <button
-            className='emoji-toggle-button'
-            onClick={() => setShowEmojiSidebar((prev) => !prev)}
-          >
-            😊
-          </button>
-
-          {showEmojiSidebar && (
-            <div className='emoji-picker-container'>
-              <EmojiPicker onEmojiClick={onEmojiClick} />
-            </div>
-          )}
-        </div>
-
-        <label htmlFor="image-upload">
-          <FaUpload />
-        </label>
-        <input
-          id="image-upload"
-          type="file"
-          accept="image/*"
-          onChange={(e) => handleImageUpload(e.target.files[0])}
-        />
-        {/* Image Preview */}
-        {imageUrl && (
-          <div className="image-preview">
-            <img src={imageUrl} alt="preview" style={{ maxWidth: '100px', borderRadius: '8px' }} />
-            <button className="cancel-preview" onClick={() => setImageUrl(null)}>✖</button>
-          </div>
-        )}
-
-
-        <input
-          type='text'
-          placeholder='Type your message...'
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              sendMessage();
-              setShowEmojiSidebar(false);
-            }
-          }}
-        />
-
-
-//         <button onClick={sendMessage}>&#9658;</button> //uncomment it and comment below button if errors
-
-        <button onClick={sendMessage} disabled={uploading}>
-          <FaPaperPlane />
-        </button>
-
+    {showEmojiSidebar && (
+      <div className='emoji-picker-container'>
+        <EmojiPicker onEmojiClick={onEmojiClick} />
       </div>
+    )}
+  </div>
+
+  <label htmlFor='image-upload' className='upload-button'>
+    <FaUpload />
+  </label>
+  <input
+    id='image-upload'
+    type='file'
+    accept='image/*'
+    onChange={(e) => handleImageUpload(e.target.files[0])}
+  />
+
+  {imageUrl && (
+    <div className='image-preview'>
+      <img
+        src={imageUrl}
+        alt='preview'
+        style={{ maxWidth: '100px', borderRadius: '8px' }}
+      />
+      <button
+        className='cancel-preview'
+        onClick={() => setImageUrl(null)}
+      >
+        ✖
+      </button>
+    </div>
+  )}
+
+  <input
+    type='text'
+    className='message-input'
+    placeholder='Type your message...'
+    value={currentMessage}
+    onChange={(e) => setCurrentMessage(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+        setShowEmojiSidebar(false);
+      }
+    }}
+  />
+
+  <button onClick={sendMessage} className='send-button' disabled={uploading}>
+    <FaPaperPlane />
+  </button>
+</div>
+ 
+
+
     </div>
   );
 }

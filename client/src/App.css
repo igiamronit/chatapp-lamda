@@ -15,6 +15,57 @@ body {
   align-items: center;
 }
 
+.createRoomContainer {
+  background-color: white;
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.createRoomContainer h1,
+.createRoomContainer h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.createRoomContainer input {
+  width: 250px;
+  height: 45px;
+  margin: 10px 0;
+  border: 1.5px solid #43a047;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.createRoomContainer input:focus {
+  border-color: #2e7d32;
+}
+
+.createRoomContainer button {
+  width: 250px;
+  height: 45px;
+  margin-top: 15px;
+  background-color: #43a047;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.createRoomContainer button:hover {
+  background-color: #2e7d32;
+}
+
+
+
+
 .joinChatContainer {
   background-color: white;
   padding: 2rem 3rem;
@@ -125,7 +176,7 @@ body {
 
 .chat-footer input[type="file"] {
   display: none; /* Hide the file input */
-}
+
 
 .chat-footer label {
   display: flex;
@@ -206,7 +257,7 @@ body {
 
 
 .createRoomContainer {
-  background-color: white;
+  background-color: rgb(33, 102, 3);
   padding: 2rem 3rem;
   border-radius: 16px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
@@ -304,7 +355,7 @@ body {
 #you {
   align-self: flex-end;
   background-color: #d1e7dd;
-  color: #0f5132;
+  color: #ffffff;
 }
 
 #other {
@@ -343,9 +394,9 @@ body {
 
 /* Emoji toggle + emoji wrapper */
 .emoji-toggle-button {
-  font-size: 22px;
   background: none;
   border: none;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -365,13 +416,18 @@ body {
 }
 
 /* Input box */
-.chat-footer input[type="text"] {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  outline: none;
-  font-size: 14px;
+.chat-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+
+.emoji-picker-wrapper {
+  position: relative;
 }
 
 /* Send button */
@@ -398,3 +454,35 @@ body {
   margin: 5px 10px;
 }
 
+.upload-button {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #555;
+}
+
+#image-upload {
+  display: none;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.send-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.send-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

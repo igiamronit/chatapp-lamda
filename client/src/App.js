@@ -19,23 +19,7 @@ function App() {
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
-  // ADD THIS EFFECT FOR SOCKET CONNECTION DEBUGGING
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Socket connected:', socket.id);
-    });
-    
-    socket.on('disconnect', () => {
-      console.log('Socket disconnected');
-    });
-    
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-    };
-  }, []);
-  
-
+ 
   //function to create a room
   const createRoom = async() =>{
     if( user && room.trim()!== ""){

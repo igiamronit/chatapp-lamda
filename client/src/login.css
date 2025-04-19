@@ -1,79 +1,137 @@
 .login-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-  }
-  
-  .login-card {
-    background: #fff;
-    padding: 2.5rem 2rem;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(60, 72, 100, 0.15);
-    text-align: center;
-    min-width: 320px;
-  }
-  
-  .login-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #3730a3;
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
-  
-  .google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #3730a3;
-    border: 2px solid #3730a3;
-    border-radius: 8px;
-    padding: 0.7rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(60, 72, 100, 0.07);
-    margin: 0 auto;
-  }
-  
-  .google-btn:hover {
-    background: #3730a3;
-    color: #fff;
-  }
-  
-  .google-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-  }
-  
-  .logout-btn {
-    margin-top: 1.5rem;
-    background: #f87171;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .logout-btn:hover {
-    background: #dc2626;
-  }
-  .signed-in-bar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 1rem 2rem 0 2rem;
-    background: none;
-    box-shadow: none;
-    font-size: 1rem;
-    gap: 1rem;
-  }
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  padding: 2rem;
+}
+
+.login-card {
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(60, 72, 100, 0.15);
+  text-align: center;
+  min-width: 350px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.lambda-logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+}
+
+.login-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #3730a3;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #3730a3;
+  border: 2px solid #3730a3;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(60, 72, 100, 0.07);
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+}
+
+.google-btn:hover {
+  background: #3730a3;
+  color: #fff;
+}
+
+.google-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.features {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.features h4 {
+  margin-bottom: 0.5rem;
+  color: #4f46e5;
+}
+
+.features ul {
+  padding-left: 1rem;
+  list-style: none;
+}
+
+.features li {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.chat-preview {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+}
+
+.message {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 20px;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.message.left {
+  background: #e0e7ff;
+  align-self: flex-start;
+}
+
+.message.right {
+  background: #c4b5fd;
+  color: #fff;
+  align-self: flex-end;
+  float: right;
+  clear: both;
+}
+
+.logout-btn {
+  margin-top: 1.5rem;
+  background: #f87171;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+.signed-in-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem 2rem 0 2rem;
+  font-size: 1rem;
+  gap: 1rem;
+}

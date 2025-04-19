@@ -45,37 +45,42 @@ function Login({ user, onLogin }) {
 
   if (!user) {
     return (
-      <div className="login-container">
-        <div className="login-card">
-          <img src={lambdaLogo} alt="Lambda Logo" className="lambda-logo" />
-          <h2 className="login-title">Ctrl-Alt- Elite</h2>
-          <button className="google-btn" onClick={handleGoogleSignIn}>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/240px-Google_%22G%22_logo.svg.png"
-              alt="Google"
-              className="google-icon"
-            />
-            Sign in with Google
-          </button>
-
-          <div className="features">
-            <h4>✨ Features</h4>
-            <ul>
-              <li>🔒 Secure Login</li>
-              <li>💬 Real-time Messaging</li>
-              <li>👽Join Room and create room</li>
-              <li>📱Chat History</li>
-            </ul>
+      <div className="container">
+        <div className="left-section">
+          <div className="logo-box">
+            <h1 className="login-title">Ctrl-Alt-Elite</h1>
+            <p className="subtitle">Instant chat with anyone</p>
+            <button className="google-btn" onClick={handleGoogleSignIn}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/240px-Google_%22G%22_logo.svg.png"
+                alt="Google"
+                className="google-icon"
+              />
+              Sign in with Google
+            </button>
           </div>
-
-          <div className="chat-preview">
-            <div className="message left">Hey, are we meeting today?</div>
-            <div className="message right">Yeah! 5 PM as planned 🙂</div>
+        </div>
+        <div className="right-section">
+          <div className="chat-window">
+            <div className="chat-header">
+              <h3>Chat</h3>
+            </div>
+            <div className="chat-body">
+              <div className="message left">Hi</div>
+              <div className="message right">Hello</div>
+              <div className="message left">How are you doing?</div>
+              <div className="message right">I am fine!</div>
+              <div className="message left">That's great to hear!</div>
+              <div className="message right">Thanks!</div>
+            </div>
           </div>
         </div>
       </div>
     );
   }
+  
+  
+
 
   return (
     <div className="signed-in-bar">
@@ -85,6 +90,6 @@ function Login({ user, onLogin }) {
       </button>
     </div>
   );
-}
 
+}
 export default Login;

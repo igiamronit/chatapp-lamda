@@ -16,14 +16,17 @@ function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [showEmojiSidebar, setShowEmojiSidebar] = useState(false);
-  const [someoneTyping, setSomeoneTyping] = useState(null);
 
   const messagesEndRef = useRef(null);
   const emojiRef = useRef(null);
-  const typingTimeout = useRef(null);
+  const messagesEndRef = useRef(null);
+  const emojiRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  
+  
+  
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -109,27 +112,6 @@ function Chat({ socket, username, room }) {
     };
   }, [socket]);
 
-  useEffect(() => {
-    socket.on('typing', ({ username: typingUser }) => {
-      if (typingUser !== username) {
-        setSomeoneTyping(`${typingUser} is typing...`);
-
-        if (typingTimeout.current) {
-          clearTimeout(typingTimeout.current);
-        }
-
-        typingTimeout.current = setTimeout(() => {
-          setSomeoneTyping(null);
-        }, 2000);
-      }
-    });
-
-    return () => {
-      socket.off('typing');
-      if (typingTimeout.current) clearTimeout(typingTimeout.current);
-    };
-  }, [socket, username]);
-
   const onEmojiClick = (emojiData) => {
     setCurrentMessage((prev) => prev + emojiData.emoji);
   };
@@ -166,11 +148,6 @@ function Chat({ socket, username, room }) {
             </div>
           ))}
           <div ref={messagesEndRef} />
-          {someoneTyping && (
-            <div className='typing-notification'>
-              <em>{someoneTyping}</em>
-            </div>
-          )}
         </div>
       </div>
 
@@ -213,10 +190,7 @@ function Chat({ socket, username, room }) {
           type='text'
           placeholder='Type your message...'
           value={currentMessage}
-          onChange={(e) => {
-            setCurrentMessage(e.target.value);
-            socket.emit('typing', { room, username });
-          }}
+          onChange={(e) => setCurrentMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               sendMessage();

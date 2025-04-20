@@ -45,47 +45,30 @@ function Login({ user, onLogin }) {
 
   if (!user) {
     return (
-      <div className="container">
-        {/* Left Section */}
+      <div className="main-wrapper">
+        {/* {left} */}
         <div className="left-section">
-          <div className="branding">
-            <img src={lambdaLogo} alt="Lambda Logo" className="lambda-logo" />
-            <h1 className="login-title">Ctrl-Alt-Elite</h1>
-          </div>
+          <div className="lambda-logo">λ</div>
+          <h1 className="app-title">Ctrl-Alt-Elite</h1>
           <p className="subtitle">Instant chat with anyone</p>
-          <button className="google-btn" onClick={handleGoogleSignIn}>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/240px-Google_%22G%22_logo.svg.png"
-              alt="Google"
-              className="google-icon"
-            />
+          <button className="google-signin" onClick={handleGoogleSignIn}>
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"/>
             Sign in with Google
           </button>
         </div>
 
-        {/* Right Section */}
-        <div className="right-section">
-          <div className="chat-window">
-            <div className="chat-header">
-              <h3>Chat</h3>
-              <div className="chat-icon">⚙️</div>
-            </div>
-            <div className="chat-body">
-              <div className="message left">
-                <span className="avatar">👤</span>
-                Hello!
-              </div>
-              <div className="message right">
-                Hi! How are you?
-              </div>
-              <div className="message left">
-                <span className="avatar">👤</span>
-                I'm great, thanks for asking.
-              </div>
-              <div className="message right">
-                Sounds good!
-              </div>
-            </div>
+        {/* right section */}
+        <div className="chat-container">
+          <div className="chat-header">
+            <span>Chat</span>
+            <div className="profile-icon">👤</div>
+          </div>
+          <div className="chat-messages">
+            <div className="message received">Hello!</div>
+            <div className="message sent">Hi! How are you?</div>
+            <div className="message received">I'm great, thanks for asking about me.</div>
+            <div className="message sent">Sounds good!</div>
+            <div className="message received">Great!</div>
           </div>
         </div>
       </div>

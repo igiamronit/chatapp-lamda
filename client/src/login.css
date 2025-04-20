@@ -1,7 +1,7 @@
-body {
+/* body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #e7e6fb, #fddde6); /* Pink gradient */
+  background: linear-gradient(135deg, #e7e6fb, #fddde6); 
   height: 100vh;
   display: flex;
   align-items: center;
@@ -11,10 +11,10 @@ body {
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* Ensure both sections have equal height */
+  align-items: stretch;
   width: 100%;
   max-width: 1200px;
-  height: 80%; /* Adjusted height */
+  height: 80%; 
   padding: 2rem;
 }
 
@@ -23,37 +23,36 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Center align content */
+  align-items: center;
   padding-right: 2rem;
-  /* Removed box-shadow and border-radius to make it blend seamlessly */
 }
 
 .branding {
   display: flex;
-  flex-direction: column; /* Stack logo and title vertically */
+  flex-direction: column; 
   align-items: center;
-  gap: 1rem; /* Space between logo and title */
+  gap: 1rem; 
   margin-bottom: 1rem;
 }
 
 .lambda-logo {
-  width: 80px; /* Adjusted size */
+  width: 80px; 
   height: 80px;
 }
 
 .login-title {
-  font-size: 3.5rem; /* Increased size */
-  font-weight: 800; /* Increased weight */
-  color: #1f2937; /* Dark gray */
-  text-align: center; /* Center align text */
+  font-size: 3.5rem;
+  font-weight: 800; 
+  color: #1f2937; /* D
+  text-align: center; 
 }
 
 .subtitle {
-  font-size: 1.8rem; /* Increased size */
-  font-weight: 600; /* Increased weight */
-  color: #6b7280; /* Lighter gray */
-  margin-bottom: 2rem; /* Adjusted spacing */
-  text-align: center; /* Center align text */
+  font-size: 1.8rem; /* Increased size *
+  font-weight: 600; /* Increased weight /
+  color: #6b7280; /* Lighter gray *
+  margin-bottom: 2rem; /* Adjusted spacing /
+  text-align: center; /* Center align text /
 }
 
 .google-btn {
@@ -92,7 +91,7 @@ body {
 
 .chat-window {
   width: 100%;
-  max-width: 450px; /* Adjusted width */
+  max-width: 450px; * Adjusted width *
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -102,11 +101,11 @@ body {
 }
 
 .chat-header {
-  background: #1f2937; /* Dark gray */
+  background: #1f2937; /* Dark gray *
   color: #fff;
   padding: 1rem;
   text-align: center;
-  font-size: 1.5rem; /* Increased size */
+  font-size: 1.5rem; /* Increased size /
   font-weight: bold;
   display: flex;
   justify-content: space-between;
@@ -119,10 +118,10 @@ body {
 
 .chat-body {
   flex: 1;
-  padding: 1.5rem; /* Increased padding */
+  padding: 1.5rem; /* Increased padding *
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Increased gap between messages */
+  gap: 1rem; /* Increased gap between messages *
   overflow-y: auto;
 }
 
@@ -131,11 +130,11 @@ body {
   border-radius: 20px;
   max-width: 70%;
   word-wrap: break-word;
-  font-size: 1.2rem; /* Increased size */
+  font-size: 1.2rem; /* Increased size *
 }
 
 .message.left {
-  background: #e0e7ff; /* Light blue */
+  background: #e0e7ff; /* Light blue *
   align-self: flex-start;
   display: flex;
   align-items: center;
@@ -143,7 +142,7 @@ body {
 }
 
 .message.right {
-  background: #c4b5fd; /* Light purple */
+  background: #c4b5fd; /* Light purple *
   color: #fff;
   align-self: flex-end;
   display: flex;
@@ -152,10 +151,145 @@ body {
 }
 
 .message.left::before {
-  content: ""; /* Removed avatar for left messages */
+  content: ""; /* Removed avatar for left messages *
 }
 
 .message.right::before {
-  content: "👤"; /* Avatar for right messages */
+  content: "👤"; /* Avatar for right messages *
   font-size: 1.2rem;
+} */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0e9ff, #ffeaf1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  padding: 40px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Left Section */
+.left-section {
+  text-align: left;
+  max-width: 400px;
+}
+
+.lambda-logo {
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  color: #b689f0;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.app-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 18px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.google-signin {
+  background: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.google-signin img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Right Section */
+.chat-container {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  max-width: 90%;
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #2f3542;
+  color: white;
+  padding: 12px 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-icon {
+  font-size: 18px;
+}
+
+.chat-messages {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f9f9f9;
+}
+
+.message {
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 75%;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.received {
+  background-color: #eef0f4;
+  align-self: flex-start;
+}
+
+.sent {
+  background-color: #dfeaff;
+  align-self: flex-end;
+}
+
+@media (max-width: 768px) {
+  .main-wrapper {
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .left-section {
+    align-items: center;
+  }
 }

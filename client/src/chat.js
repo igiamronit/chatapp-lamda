@@ -20,29 +20,40 @@ function Chat({ socket, username, room, userId }) {
   const emojiRef = useRef(null); 
   const [imageUrl, setImageUrl] = useState(null); //image support
   const [uploading, setUploading] = useState(false);
-  const [isSomeoneTyping, setIsSomeoneTyping] = useState(false); //for typing indicator
+  const [typingUsers, setTypingUsers] = useState([]); //for typing indicator
   const typingTimeoutRef = useRef(null); 
+  const getFirstName = (name) => name.split(' ')[0];
 
 
   const handleInputStatusChange = (e) => {
     setCurrentMessage(e.target.value);
 
-    socket.emit('typing', {room, userId});
+    const firstName = getFirstName(username);
+    socket.emit('typing', {room, userId, username:firstName});
 
-    //if didnt type anything for 3sec
+    //if didnt type anything for 2sec
     if(typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     typingTimeoutRef.current = setTimeout(() => {
-      socket.emit('stop-typing', {room, userId});
-    }, 3000);
+      socket.emit('stop-typing', {room, userId, username:firstName});
+    }, 2000);
   }
 
   //typing indicator
   useEffect(() => {
     socket.on('typing', (data) => {
-      if(data.userId !== userId) setIsSomeoneTyping(true);
+      if(data.userId !== userId){
+        setTypingUsers((prev) => {
+          if(!prev.includes(data.username)){
+            return [...prev, data.username];
+          }
+          return prev;
+        });
+      }
     });
     socket.on('stop-typing', (data) => {
-      if(data.userId !== userId) setIsSomeoneTyping(false);
+      if(data.userId !== userId){
+        setTypingUsers((prev) => prev.filter((name) => name !== data.username));
+      }
     });
 
     return () => {
@@ -50,6 +61,11 @@ function Chat({ socket, username, room, userId }) {
       socket.off('stop-typing');
     };
   },[socket, userId]);
+
+  //scroll for typing indicator
+  useEffect(() => {
+    scrollToBottom();
+  }, [typingUsers]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -179,8 +195,10 @@ function Chat({ socket, username, room, userId }) {
             </div>
           ))}
           <div ref={messagesEndRef} />
-          {isSomeoneTyping && (
-            <div className="typing-notification">Someone is typing... </div>
+          {typingUsers.length > 0  && (
+            <div className="typing-notification">
+              {typingUsers.join(', ')} {typingUsers.length === 1 ? 'is' : "are"} typing...
+            </div>
           )}
         </div>
       </div>

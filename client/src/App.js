@@ -98,7 +98,7 @@ function App() {
       </div>  
       ) : (
 
-        <Chat socket={socket} username={user.displayName} room={room} />
+        <Chat socket={socket} username={user.displayName} room={room} userId={user.uid} />
       )}
     </div>
   );

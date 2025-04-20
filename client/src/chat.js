@@ -12,14 +12,44 @@ import EmojiPicker from 'emoji-picker-react';
 import './App.css';
 import { FaPaperPlane, FaUpload } from 'react-icons/fa';
 
-function Chat({ socket, username, room }) {
-  const [currentMessage, setCurrentMessage] = useState('');
-  const [messageList, setMessageList] = useState([]);
+function Chat({ socket, username, room, userId }) {
+  const [currentMessage, setCurrentMessage] = useState(''); //for real time mesage
+  const [messageList, setMessageList] = useState([]); //message history
   const [showEmojiSidebar, setShowEmojiSidebar] = useState(false);
-  const messagesEndRef = useRef(null);
-  const emojiRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const messagesEndRef = useRef(null); //autoscroll
+  const emojiRef = useRef(null); 
+  const [imageUrl, setImageUrl] = useState(null); //image support
   const [uploading, setUploading] = useState(false);
+  const [isSomeoneTyping, setIsSomeoneTyping] = useState(false); //for typing indicator
+  const typingTimeoutRef = useRef(null); 
+
+
+  const handleInputStatusChange = (e) => {
+    setCurrentMessage(e.target.value);
+
+    socket.emit('typing', {room, userId});
+
+    //if didnt type anything for 3sec
+    if(typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit('stop-typing', {room, userId});
+    }, 3000);
+  }
+
+  //typing indicator
+  useEffect(() => {
+    socket.on('typing', (data) => {
+      if(data.userId !== userId) setIsSomeoneTyping(true);
+    });
+    socket.on('stop-typing', (data) => {
+      if(data.userId !== userId) setIsSomeoneTyping(false);
+    });
+
+    return () => {
+      socket.off('typing');
+      socket.off('stop-typing');
+    };
+  },[socket, userId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -149,6 +179,9 @@ function Chat({ socket, username, room }) {
             </div>
           ))}
           <div ref={messagesEndRef} />
+          {isSomeoneTyping && (
+            <div className="typing-notification">Someone is typing... </div>
+          )}
         </div>
       </div>
       <div className='chat-footer'>
@@ -198,7 +231,8 @@ function Chat({ socket, username, room }) {
     className='message-input'
     placeholder='Type your message...'
     value={currentMessage}
-    onChange={(e) => setCurrentMessage(e.target.value)}
+    onChange={handleInputStatusChange}
+    // onChange={(e) => setCurrentMessage(e.target.value)}
     onKeyDown={(e) => {
       if (e.key === 'Enter') {
         sendMessage();

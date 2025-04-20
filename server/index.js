@@ -33,8 +33,18 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User disconnected', socket.id);
     });
+
+    socket.on('typing', (data) =>{
+        socket.to(data.room).emit('typing', data);
+    });
+
+    socket.on('stop-typing', (data) =>{
+        socket.to(data.room).emit('stop-typing', data);
+    });
+
+
 });
 
-server.listen(3000, () => {
-    console.log('Server running on port 3000');
+server.listen(3001, () => {
+    console.log('Server running on port 3001');
 });

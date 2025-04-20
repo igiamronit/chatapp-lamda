@@ -7,7 +7,7 @@ import { db } from './firebaseConfig';
 import { doc, setDoc, getDoc} from 'firebase/firestore';
 
 // backend URL
-const socket = io("https://chatapp-ylh8.onrender.com");
+const socket = io("https://chatapp-lamda.onrender.com");
 
 
 

@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import "./login.css";
-import lambdaLogo from "./lambda.png"; // Add your lambda image in `src` or `public` and adjust import
+import lambdaLogo from "./lambda.png"; // Ensure the lambda logo is in the correct path
 
 function Login({ user, onLogin }) {
   useEffect(() => {
@@ -46,41 +46,51 @@ function Login({ user, onLogin }) {
   if (!user) {
     return (
       <div className="container">
+        {/* Left Section */}
         <div className="left-section">
-          <div className="logo-box">
+          <div className="branding">
+            <img src={lambdaLogo} alt="Lambda Logo" className="lambda-logo" />
             <h1 className="login-title">Ctrl-Alt-Elite</h1>
-            <p className="subtitle">Instant chat with anyone</p>
-            <button className="google-btn" onClick={handleGoogleSignIn}>
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/240px-Google_%22G%22_logo.svg.png"
-                alt="Google"
-                className="google-icon"
-              />
-              Sign in with Google
-            </button>
           </div>
+          <p className="subtitle">Instant chat with anyone</p>
+          <button className="google-btn" onClick={handleGoogleSignIn}>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/240px-Google_%22G%22_logo.svg.png"
+              alt="Google"
+              className="google-icon"
+            />
+            Sign in with Google
+          </button>
         </div>
+
+        {/* Right Section */}
         <div className="right-section">
           <div className="chat-window">
             <div className="chat-header">
               <h3>Chat</h3>
+              <div className="chat-icon">⚙️</div>
             </div>
             <div className="chat-body">
-              <div className="message left">Hi</div>
-              <div className="message right">Hello</div>
-              <div className="message left">How are you doing?</div>
-              <div className="message right">I am fine!</div>
-              <div className="message left">That's great to hear!</div>
-              <div className="message right">Thanks!</div>
+              <div className="message left">
+                <span className="avatar">👤</span>
+                Hello!
+              </div>
+              <div className="message right">
+                Hi! How are you?
+              </div>
+              <div className="message left">
+                <span className="avatar">👤</span>
+                I'm great, thanks for asking.
+              </div>
+              <div className="message right">
+                Sounds good!
+              </div>
             </div>
           </div>
         </div>
       </div>
     );
   }
-  
-  
-
 
   return (
     <div className="signed-in-bar">
@@ -90,6 +100,6 @@ function Login({ user, onLogin }) {
       </button>
     </div>
   );
-
 }
+
 export default Login;

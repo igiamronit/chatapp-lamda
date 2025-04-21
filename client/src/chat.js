@@ -196,7 +196,6 @@ function Chat({ socket, username, room, userId }) {
               id={username === msg.author ? 'you' : 'other'}
               key={index}
             >
-              <div>
                 <div className='message-content' id={msg.image ? 'image' : ''}>
                   {msg.image ? (
                     <img
@@ -212,7 +211,6 @@ function Chat({ socket, username, room, userId }) {
                   <p id='time'>{msg.time}</p>
                   <p id='author'>{msg.author}</p>
                 </div>
-              </div>
             </div>
           ))}
           <div ref={messagesEndRef} />

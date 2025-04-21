@@ -5,6 +5,8 @@ body {
   padding: 0;
   font-family: "Open Sans", sans-serif;
   background-color: #f5f7fa;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .App {
@@ -64,82 +66,138 @@ body {
   background-color: #2e7d32;
 }
 
-/* Main chat window container */
+/* Main chat window container - FULL SCREEN */
 .chat-window {
-  width: 100%;
-  max-width: 600px;
-  height: 80vh;
-  margin: 20px auto;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
   background-color: #f1f1f1;
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 /* Header */
 .chat-header {
-  background-color: #333;
+  background-color: #2d3748;
   color: white;
-  padding: 10px 15px;
+  padding: 15px 25px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Body containing the messages */
 .chat-body {
   flex: 1;
-  padding: 10px;
+  padding: 20px;
   overflow-y: auto;
-  background-color: #e5e5e5;
+  background-color: #f0f2f5;
 }
 
 .message-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 10px;
 }
 
 /* Chat bubbles */
 .message {
   display: flex;
-  max-width: 75%;
+  flex-direction: column;
+  max-width: 50%;
   word-wrap: break-word;
-  padding: 8px 12px;
-  border-radius: 15px;
-  font-size: 15px;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 16px;
   position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+  width: fit-content;
 }
 
 #you {
   align-self: flex-end;
-  background-color: #d1e7dd;
-  color: #ffffff;
+  background-color: #dcf8c6; /* WhatsApp green color */
+  color: #000000;
+  border-top-right-radius: 4px;
+  margin-left: auto;
+  margin-right: 0;
 }
 
 #other {
   align-self: flex-start;
-  background-color: #f8d7da;
-  color: #842029;
+  background-color: #ffffff;
+  color: #000000;
+  border-top-left-radius: 4px;
+  margin-left: 0;
+  margin-right: auto;
 }
 
 /* Message content + meta (time/author) */
+.message-content {
+  width: 100%;
+}
+
 .message-content p {
   margin: 0;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.message-content img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* For image messages */
+#image {
+  padding: 8px;
 }
 
 .message-meta {
   display: flex;
-  justify-content: space-between;
   font-size: 12px;
-  color: #666;
-  margin-top: 4px;
+  color: #888888;
+  margin-top: 5px;
+  width: 100%;
 }
 
-#time,
-#author {
+#you .message-meta {
+  justify-content: flex-end;
+}
+
+#other .message-meta {
+  justify-content: flex-start;
+}
+
+#time, #author {
   margin: 0 5px;
+}
+
+#you #time {
+  order: 1;
+}
+
+#you #author {
+  order: 2;
+}
+
+#other #time {
+  order: 1;
+}
+
+#other #author {
+  order: 2;
+  margin-left: 5px;
 }
 
 /* Footer */
@@ -147,10 +205,10 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-top: 1px solid #ccc;
-  background-color: #f9f9f9;
+  gap: 15px;
+  padding: 15px 25px;
+  border-top: 1px solid #e1e1e1;
+  background-color: #ffffff;
 }
 
 /* Emoji toggle + emoji wrapper */
@@ -159,6 +217,11 @@ body {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.emoji-toggle-button:hover {
+  transform: scale(1.1);
 }
 
 .emoji-picker-wrapper {
@@ -168,51 +231,66 @@ body {
 /* The popup emoji picker */
 .emoji-picker-container {
   position: absolute;
-  bottom: 40px;
+  bottom: 60px;
   left: 0;
   z-index: 1000;
-  background-color: white !important; /* Ensure the background is white */
+  background-color: white !important;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .emoji-picker-container * {
-  background-color: transparent !important; /* Remove any green background */
-  color: inherit; /* Ensure text color is not overridden */
+  background-color: transparent !important;
+  color: inherit;
 }
 
 .emoji-picker-container button {
-  background-color: transparent !important; /* Ensure buttons have no background */
+  background-color: transparent !important;
   border: none;
   cursor: pointer;
 }
 
 .emoji-picker-container button:hover {
-  background-color: #f0f0f0; /* Add a subtle hover effect */
+  background-color: #f0f0f0;
 }
 
 /* Input box */
 .message-input {
   flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+  padding: 12px 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 24px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.message-input:focus {
+  border-color: #4285f4;
 }
 
 /* Send button */
 .send-button {
-  background-color: #007bff;
+  background-color: #4285f4;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+  background-color: #1a73e8;
 }
 
 .send-button:disabled {
-  background-color: #ccc;
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
@@ -220,7 +298,17 @@ body {
 .upload-button {
   cursor: pointer;
   font-size: 1.5rem;
-  color: #555;
+  color: #5f6368;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.upload-button:hover {
+  color: #4285f4;
 }
 
 #image-upload {
@@ -259,22 +347,29 @@ body {
 .typing-notification {
   font-size: 14px;
   font-style: italic;
-  color: #555;
+  color: #666666;
   margin: 5px 10px;
 }
 
 /* Scrollbar styles */
 .chat-body::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .chat-body::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 8px;
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
 }
 
 .delete-room {
-  margin-left: auto;
   background-color: #ff4d4f;
   color: white;
   border: none;
@@ -297,4 +392,15 @@ body {
   background-color: #b71c1c;
   transform: translateY(0);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .message {
+    max-width: 80%;
+  }
+  
+  .chat-footer {
+    padding: 10px 15px;
+  }
 }

@@ -25,6 +25,77 @@ function Chat({ socket, username, room, userId }) {
   const [typingUsers, setTypingUsers] = useState([]); //for typing indicator
   const typingTimeoutRef = useRef(null); 
   const getFirstName = (name) => name.split(' ')[0];
+  const [file, setFile] = useState(null);
+
+<input type="file" onChange={(e) => setFile(e.target.files[0])} />
+
+
+
+const handleFileUpload = async (file) => {
+  if (!file) return;
+
+  setUploading(true);
+
+  // Prepare FormData for file upload
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    setUploading(false);
+
+    if (data.fileUrl) {
+      // Return file URL if upload was successful
+      return data.fileUrl;
+    } else {
+      console.error("File upload failed:", data);
+    }
+  } catch (error) {
+    setUploading(false);
+    console.error("Error uploading file:", error);
+  }
+};
+
+
+
+const sendMessage = async () => {
+  let fileUrl = null;
+
+  if (file) {
+    fileUrl = await uploadFile();
+    setFile(null);
+  }
+
+  socket.emit("chat message", {
+    content: currentMessage,
+    fileUrl,
+    sender: username,
+    timestamp: new Date(),
+  });
+
+  setMessageText("");
+};
+
+
+{msg.fileUrl && (
+  <>
+    {msg.fileUrl.match(/\.(jpeg|jpg|png|gif)$/) ? (
+      <img src={msg.fileUrl} alt="uploaded" className="w-32 h-auto rounded" />
+    ) : (
+      <a href={msg.fileUrl} download className="text-blue-500 underline">
+        Download File
+      </a>
+    )}
+  </>
+)}
+
+
+
 
   const handleInputStatusChange = (e) => {
     setCurrentMessage(e.target.value);
@@ -89,33 +160,6 @@ function Chat({ socket, username, room, userId }) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const sendMessage = async () => {
-    if (currentMessage.trim() !== '' || imageUrl) {
-      const messageData = {
-        room,
-        author: username,
-        message: imageUrl ? null : currentMessage,
-        image: imageUrl || null,
-        time: new Date().toLocaleTimeString(),
-        timestamp: serverTimestamp(),
-      };
-
-      try {
-        await addDoc(collection(db, 'rooms', room, 'messages'), messageData);
-        socket.emit('send_message', messageData);
-      } catch (e) {
-        console.error('Error adding document: ', e);
-      }
-
-      console.log('Sending message:', {
-        message: imageUrl ? null : currentMessage,
-        image: imageUrl || null,
-      });
-
-      setCurrentMessage('');
-      setImageUrl(null);
-    }
-  };
 
   const handleImageUpload = async (file) => {
     if (!file) return;
@@ -229,6 +273,16 @@ function Chat({ socket, username, room, userId }) {
     >
       😊
     </button>
+
+      <label htmlFor="file-upload" className="upload-button">
+        📁
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        onChange={(e) => handleFileUpload(e.target.files[0])}
+        style={{ display: "none" }}
+      />
 
     {showEmojiSidebar && (
       <div className='emoji-picker-container'>

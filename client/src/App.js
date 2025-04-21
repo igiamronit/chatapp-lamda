@@ -5,6 +5,8 @@ import Chat from './chat';
 import Login from './login.js'
 import { db } from './firebaseConfig';
 import { doc, setDoc, getDoc} from 'firebase/firestore';
+import { signOut } from "firebase/auth";
+import { auth } from "./firebaseConfig";
 
 // backend URL
 const socket = io("https://chatapp-lamda.onrender.com");
@@ -13,7 +15,7 @@ const socket = io("https://chatapp-lamda.onrender.com");
 
 
 
-function App() {
+export default function App() {
 
   const [user, setUser] = useState(null); //for google auth
   const [room, setRoom] = useState("");
@@ -35,6 +37,22 @@ function App() {
       alert("Please enter a valid room ID");
     }
   }
+
+
+
+
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      setUser(null);
+      setShowChat(false);
+    });
+  };
+
+  // If not logged in, show login
+  if (!user) {
+    return <Login onLogin={setUser} />;
+  }
+
   // function to join a room
   const joinRoom = async () => {
     if (user && room.trim() !== "") {
@@ -72,6 +90,23 @@ function App() {
         //show this if setShowChat is false(home page)
         //container containing both create room and join room
         <div className='roomContainer'> 
+
+        <div className="Login">
+            <span>
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google icon"
+                style={{ width: '20px', height: '20px' }}
+              />
+              Signed in as: {user.displayName}
+            </span>
+            <button className="signOutButton" onClick={handleSignOut}>
+              Sign out
+            </button>
+          </div>
+
+
+
         {/*container for create room*/}
         <div className='createRoomContainer'>
           <h1>Create Room</h1>
@@ -94,14 +129,14 @@ function App() {
           />
           <button onClick={joinRoom}>Join</button>
         </div>
-        <Login user={user} onLogin={setUser} />
       </div>  
+    
       ) : (
+
 
         <Chat socket={socket} username={user.displayName} room={room} userId={user.uid} />
       )}
     </div>
   );
-}
 
-export default App;
+}

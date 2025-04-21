@@ -87,10 +87,14 @@ export default function App() {
   return (
     <div className="App">
       {!showChat ? (
-        //show this if setShowChat is false(home page)
+          <div className='appContainer'>
+          <div className="app-title">
+            <h1>ctrl-alt-elite</h1>
+            <p>Your real-time messaging solution</p>
+          </div>
+        {/*//show this if setShowChat is false(home page)
         //container containing both create room and join room
-        <div className='roomContainer'> 
-
+        <div className='roomContainer'>*/} 
         <div className="Login">
             <span>
               <img
@@ -106,37 +110,36 @@ export default function App() {
           </div>
 
 
-
-        {/*container for create room*/}
-        <div className='createRoomContainer'>
-          <h1>Create Room</h1>
-          <input
-            type="text"
-            placeholder="Enter room ID"
-            onChange={(e) => setRoom(e.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, createRoom)} // Call createRoom on Enter key
-          />
-          <button onClick={createRoom}>Create</button>
+          <div className="rooms-row">
+          {/* Container for create room */}
+          <div className='createRoomContainer'>
+            <h1>Create Room</h1>
+            <input
+              type="text"
+              placeholder="Enter room ID"
+              onChange={(e) => setRoom(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e, createRoom)}
+            />
+            <button onClick={createRoom}>Create</button>
+          </div>
+          
+          {/* Container for join room */}
+          <div className="joinChatContainer">
+            <h3>Join Room</h3>
+            <input
+              type="text"
+              placeholder="Enter room ID"
+              onChange={(e) => setRoom(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e, joinRoom)}
+            />
+            <button onClick={joinRoom}>Join</button>
+          </div>
         </div>
-        {/*container for join room*/}
-        <div className="joinChatContainer">
-          <h3>Join Room</h3>
-          <input
-            type="text"
-            placeholder="Enter room ID"
-            onChange={(e) => setRoom(e.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, joinRoom)}
-          />
-          <button onClick={joinRoom}>Join</button>
-        </div>
-      </div>  
-    
-      ) : (
-
-
-        <Chat socket={socket} username={user.displayName} room={room} userId={user.uid} />
-      )}
-    </div>
-  );
+      </div>
+    ) : (
+      <Chat socket={socket} username={user.displayName} room={room} userId={user.uid} />
+    )}
+  </div>
+);
 
 }

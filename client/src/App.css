@@ -88,34 +88,55 @@ body {
 
 
 .Login {
-  margin-top: 1rem;
-  font-size: 14px;
+  margin-bottom: 30px; /* Add more space below */
+  font-size: 16px; /* Increased from 14px */
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   justify-content: center;
   font-family: 'Open Sans', sans-serif;
+  background-color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 }
 
 .Login span {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.Login span img {
+  width: 24px; /* Increased from 20px */
+  height: 24px; /* Increased from 20px */
 }
 
 .Login .signOutButton {
-  padding: 6px 12px;
+  padding: 8px 14px;
   background-color: #f87171; /* soft red */
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .Login .signOutButton:hover {
   background-color: #ef4444;
+  transform: scale(1.05);
 }
 
 .chat-window {
@@ -451,4 +472,54 @@ body {
   .chat-footer {
     padding: 10px 15px;
   }
+}
+
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.rooms-row {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  width: 100%;
+  max-width: 900px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* App title styling */
+.app-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.app-title h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  background: linear-gradient(45deg, #7c5bcc, #9b73f8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0px 2px 10px rgba(155, 115, 248, 0.3);
+  transition: all 0.3s ease;
+}
+
+.app-title h1:hover {
+  text-shadow: 0px 4px 15px rgba(155, 115, 248, 0.5);
+  transform: translateY(-2px);
+  letter-spacing: 3px;
+}
+
+.app-title p {
+  color: #666;
+  font-size: 1.1rem;
+  font-weight: 400;
 }

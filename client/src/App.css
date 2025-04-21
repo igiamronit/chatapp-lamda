@@ -107,6 +107,7 @@ body {
   margin: 0 auto;
   width: 100%;
   padding: 0 10px;
+  align-items: stretch ;
 }
 
 /* Chat bubbles */
@@ -126,11 +127,9 @@ body {
 
 #you {
   align-self: flex-end;
-  background-color: #dcf8c6; /* WhatsApp green color */
+  background-color: #dcf8c6;
   color: #000000;
   border-top-right-radius: 4px;
-  margin-left: auto;
-  margin-right: 0;
 }
 
 #other {
@@ -138,8 +137,6 @@ body {
   background-color: #ffffff;
   color: #000000;
   border-top-left-radius: 4px;
-  margin-left: 0;
-  margin-right: auto;
 }
 
 /* Message content + meta (time/author) */

@@ -21,26 +21,26 @@ body {
   padding: 60px; /* Increased from 40px */
   max-width: 1400px; /* Increased from 1200px */
   width: 100%;
-  transform: scale(1.2); /* Zoom effect */
+  transform: scale(1.2); 
 }
 
 /* Left Section */
 .left-section {
   text-align: left;
-  max-width: 480px; /* Increased from 400px */
+  max-width: 480px; 
 }
 
 .lambda-logo {
-  width: 70px; /* Increased from 50px */
-  height: 70px; /* Increased from 50px */
-  background-color: black;
+  width:  500 px;
+  height: 70px; 
   color: #b689f0;
-  font-size: 42px; /* Increased from 30px */
+  font-size: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  margin-bottom: 28px; /* Increased from 20px */
+  margin-bottom: 35px;
+
 }
 
 .app-title {
@@ -66,8 +66,18 @@ body {
   display: flex;
   align-items: center;
   gap: 14px; /* Increased from 10px */
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.google-signin:hover {
+  transform: translateY(-3px); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+  background-color: #f8f9fa; 
+}
+.google-signin:active {
+  transform: translateY(1px); /* Button slightly moves down when clicked */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Smaller shadow when clicked */
+}
 .google-signin img {
   width: 26px; /* Increased from 20px */
   height: 26px; /* Increased from 20px */

@@ -7,6 +7,8 @@ import {
   query,
   orderBy,
   onSnapshot,
+  getDocs,
+  deleteDoc,
 } from 'firebase/firestore';
 import EmojiPicker from 'emoji-picker-react';
 import './App.css';
@@ -24,7 +26,6 @@ function Chat({ socket, username, room, userId }) {
   const typingTimeoutRef = useRef(null); 
   const getFirstName = (name) => name.split(' ')[0];
 
-
   const handleInputStatusChange = (e) => {
     setCurrentMessage(e.target.value);
 
@@ -37,6 +38,23 @@ function Chat({ socket, username, room, userId }) {
       socket.emit('stop-typing', {room, userId, username:firstName});
     }, 2000);
   }
+
+  const deleteRoomMessages = async () => {
+    if (!room) return;
+  
+    try {
+      const roomMessagesRef = collection(db, 'rooms', room, 'messages');
+      const querySnapshot = await getDocs(roomMessagesRef);
+  
+      const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+      await Promise.all(deletePromises);
+  
+      //console.log(`All messages in room "${room}" have been deleted.`);
+      setMessageList([]); // Clear the local message list
+    } catch (error) {
+      //console.error('Error deleting room messages:', error);
+    }
+  };
 
   //typing indicator
   useEffect(() => {
@@ -165,6 +183,9 @@ function Chat({ socket, username, room, userId }) {
     <div className='chat-window'>
       <div className='chat-header'>
         <p>💬 Live Chat</p>
+        <button className='delete-room' onClick={deleteRoomMessages}>
+          Delete Room
+        </button>
       </div>
 
       <div className='chat-body'>

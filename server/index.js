@@ -27,7 +27,7 @@ const personas = {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post('/api/ai/ask', async (req, res) => {
-    console.log("Received AI request:", req.body);
+    //console.log("Received AI request:", req.body);
     try {
         const { message, persona } = req.body;
         
@@ -49,7 +49,7 @@ app.post('/api/ai/ask', async (req, res) => {
         const response = result.response;
         const text = response.text();
         
-        console.log("AI response:", text);
+        //console.log("AI response:", text);
         return res.status(200).json({ reply: text });
     } catch (error) {
         console.error('AI request failed:', error);

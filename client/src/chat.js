@@ -155,7 +155,7 @@ function Chat({ socket, username, room, userId }) {
     
     setAiThinking(true);
     try {
-      const res = await fetch('http://localhost:3001/api/ai/ask', {
+      const res = await fetch('https://chatapp-lamda.onrender.com/api/ai/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

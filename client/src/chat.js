@@ -94,6 +94,7 @@ function Chat({ socket, username, room, userId }) {
       const messageData = {
         room,
         author: username,
+        authorId: userId,
         message: imageUrl ? null : currentMessage,
         image: imageUrl || null,
         time: new Date().toLocaleTimeString(),
@@ -193,7 +194,7 @@ function Chat({ socket, username, room, userId }) {
           {messageList.map((msg, index) => (
             <div
               className='message'
-              id={username === msg.author ? 'you' : 'other'}
+              id={userId === msg.authorId ? 'you' : 'other'}
               key={index}
             >
                 <div className='message-content' id={msg.image ? 'image' : ''}>

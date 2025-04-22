@@ -88,8 +88,8 @@ body {
 
 
 .Login {
-  margin-bottom: 30px; /* Add more space below */
-  font-size: 16px; /* Increased from 14px */
+  margin-bottom: 30px; 
+  font-size: 16px;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -118,13 +118,13 @@ body {
 }
 
 .Login span img {
-  width: 24px; /* Increased from 20px */
-  height: 24px; /* Increased from 20px */
+  width: 24px; 
+  height: 24px; 
 }
 
 .Login .signOutButton {
   padding: 8px 14px;
-  background-color: #f87171; /* soft red */
+  background-color: #f87171; 
   color: white;
   border: none;
   border-radius: 8px;
@@ -522,4 +522,119 @@ body {
   color: #666;
   font-size: 1.1rem;
   font-weight: 400;
+}
+
+/* AI Interface Styling */
+.ai-selector {
+  padding: 8px 12px;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+  font-family: 'Open Sans', sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.ai-selector:hover {
+  border-color: #9b73f8;
+}
+
+.ai-selector:focus {
+  border-color: #9b73f8;
+  box-shadow: 0 0 0 2px rgba(155, 115, 248, 0.2);
+}
+
+.ask-ai-button {
+  background: linear-gradient(45deg, #9b73f8, #7c5bcc);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+  box-shadow: 0 3px 8px rgba(155, 115, 248, 0.3);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.ask-ai-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(155, 115, 248, 0.4);
+}
+
+.ask-ai-button:active:not(:disabled) {
+  transform: translateY(0);
+  background: linear-gradient(45deg, #7c5bcc, #6a4cb3);
+}
+
+.ask-ai-button:disabled {
+  background: linear-gradient(45deg, #c4b6eb, #a99bd1);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Enhance AI message styling */
+#ai {
+  background: linear-gradient(to right, #f8f9ff, #eff6ff);
+  border-left: 4px solid #9b73f8;
+  color: #333;
+  font-style: normal;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  max-width: 70%;
+}
+
+#ai .message-meta {
+  color: #9b73f8;
+}
+
+#ai .message-meta #author {
+  font-weight: 600;
+  background: linear-gradient(45deg, #9b73f8, #7c5bcc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Animation for "Thinking..." state */
+@keyframes thinking {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+.ask-ai-button:disabled {
+  animation: thinking 1.5s infinite ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ai-selector, .ask-ai-button {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  #ai {
+    max-width: 85%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-selector {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .ask-ai-button {
+    padding: 8px 10px;
+  }
 }

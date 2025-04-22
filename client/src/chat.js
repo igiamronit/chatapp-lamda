@@ -25,6 +25,8 @@ function Chat({ socket, username, room, userId }) {
   const [typingUsers, setTypingUsers] = useState([]); //for typing indicator
   const typingTimeoutRef = useRef(null); 
   const getFirstName = (name) => name.split(' ')[0];
+  const [selectedPersona, setSelectedPersona] = useState('Friendly'); //default is Friendly(I am nice)
+  const [aiThinking, setAiThinking] = useState(false); //for AI thinking indicator
 
   const handleInputStatusChange = (e) => {
     setCurrentMessage(e.target.value);
@@ -147,6 +149,51 @@ function Chat({ socket, username, room, userId }) {
     setUploading(false);
   };
 
+  //Ask AI
+  const askAI = async () => {
+    if (!currentMessage.trim()) return;
+    
+    setAiThinking(true);
+    try {
+      const res = await fetch('https://chatapp-lamda.onrender.com/api/ai/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: currentMessage,
+          persona: selectedPersona,
+        }),
+      });
+    
+      if (!res.ok) {
+        throw new Error(`Server responded with status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      
+      if (!data || !data.reply) {
+        throw new Error('Invalid AI response received');
+      }
+      
+      const aiMessage = {
+        room,
+        author: `${selectedPersona}Bot`,
+        authorId: 'ai_bot',
+        message: data.reply,
+        image: null,
+        time: new Date().toLocaleTimeString(),
+        timestamp: serverTimestamp(),
+      };
+    
+      await addDoc(collection(db, 'rooms', room, 'messages'), aiMessage);
+      socket.emit('send_message', aiMessage);
+      setCurrentMessage('');
+    } catch (error) {
+      console.error('AI request failed', error);
+    } finally {
+      setAiThinking(false);
+    }
+  };
+
   useEffect(() => {
     if (!room) return;
 
@@ -193,10 +240,16 @@ function Chat({ socket, username, room, userId }) {
         <div className='message-container'>
           {messageList.map((msg, index) => (
             <div
-              className='message'
-              id={userId === msg.authorId ? 'you' : 'other'}
-              key={index}
-            >
+            className='message'
+            id={
+              msg.authorId === 'ai_bot'
+                ? 'ai'
+                : userId === msg.authorId
+                ? 'you'
+                : 'other'
+            }
+            key={index}
+          >
                 <div className='message-content' id={msg.image ? 'image' : ''}>
                   {msg.image ? (
                     <img
@@ -241,6 +294,23 @@ function Chat({ socket, username, room, userId }) {
   <label htmlFor='image-upload' className='upload-button'>
     <FaUpload />
   </label>
+  <select
+  className='ai-selector'
+  value={selectedPersona}
+  onChange={(e) => setSelectedPersona(e.target.value)}
+  >
+  <option value='Friendly'>Friendly</option>
+  <option value='Roaster'>Roaster</option>
+  <option value='Tech Support'>Tech Support</option>
+  </select>
+
+  <button
+  className='ask-ai-button'
+  onClick={askAI}
+  disabled={aiThinking || !currentMessage.trim()}
+  >
+  {aiThinking ? 'Thinking...' : 'Ask AI'}
+</button>
   <input
     id='image-upload'
     type='file'

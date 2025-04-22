@@ -211,6 +211,12 @@ body {
   border-top-left-radius: 4px;
 }
 
+#ai {
+  background-color: #f0f8ff;
+  border-left: 4px solid #2196f3;
+  font-style: italic;
+}
+
 /* Message content + meta (time/author) */
 .message-content {
   width: 100%;

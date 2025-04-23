@@ -101,6 +101,10 @@ The application integrates with the Gemini API to provide AI chat functionalitie
 - User profile customization
 - Mobile application development
 
+---
+## Deployment : [Link](https://igiamronit.github.io/chatapp-lamda/)
+The application is deployed on Render for the backend and GitHub Pages for the frontend. The deployment process includes setting up environment variables, configuring the server, and ensuring that the client can communicate with the backend.
+
 ## Contact
 Project Maintainers: [harsh15044](https://github.com/harsh15044), [igiamronit](https://github.com/igiamronit), [AdisheshBalaji](https://github.com/adisheshbalaji)
 

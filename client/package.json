@@ -10,7 +10,6 @@
     "@testing-library/user-event": "^13.5.0",
     "emoji-picker-react": "^4.12.2",
     "firebase": "^11.6.0",
-    "gh-pages": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-emoji-picker": "^1.0.13",
@@ -45,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }

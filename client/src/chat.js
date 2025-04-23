@@ -215,7 +215,18 @@ function Chat({ socket, username, room, userId }) {
 
   useEffect(() => {
     socket.on('receive_message', (data) => {
-      setMessageList((list) => [...list, data]);
+      //to solve duplicate messages
+      const messagewithId = {...data, id: Date.now() };
+
+      setMessageList((list) => {
+        const isDuplicate = list.some(msg =>
+          msg.author === data.author &&
+          msg.message === data.message &&
+          msg.time === data.time
+        );
+
+        return isDuplicate ? list : [...list, messagewithId];
+      });
     });
 
     return () => {

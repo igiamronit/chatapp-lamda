@@ -1,18 +1,22 @@
 # Ctrl-Alt-Elite: Real-time Chat Application
 
 ## Overview
-Ctrl-Alt-Elite is a feature-rich real-time chat application developed for Lambda Spring Camp participants. This application enables seamless communication through instant messaging, file sharing, and collaborative spaces.
+Ctrl-Alt-Elite is a feature-rich real-time chat application developed for Lambda Spring Camp. This application enables seamless communication through instant messaging, image sharing, and collaborative spaces.
 
 ## Features
-- **Real-time messaging** with instant delivery
-- **Google authentication** for secure access
-- **Room creation and management** for organized discussions
-- **Image sharing** capabilities with preview
-- **Message deletion** functionality
-- **Typing indicators** to show active participants
-- **Emoji support** with integrated emoji picker
-- **Responsive design** for all devices
-- **Clean and intuitive UI** for enhanced user experience
+- **Real-time messaging** for no delays.
+- **Google authentication** for secure access.
+- **Joining and Creating Room** for organized discussions.
+- **Image sharing** with preview.
+- **Room Deletion** when you don't need the room anymore.
+- **Typing indicator** to show active participants.
+- **Emoji support** with integrated emoji picker.
+- **Responsive design** for all devices.
+- **Chat with AI** if you have no friends.
+    - **Friendly**: Incase you need a friend to talk to.
+    - **Roaster**: Incase you need a roast.
+    - **Tech Support**: Incase you want to ask a tech question.
+- **Clean and intuitive UI** for enhanced user experience.
 
 ## Technologies Used
 - **Frontend**: React.js, HTML5, CSS3
@@ -22,27 +26,26 @@ Ctrl-Alt-Elite is a feature-rich real-time chat application developed for Lambda
 - **Authentication**: Firebase Auth with Google Sign-in
 - **Image Hosting**: imgBB API
 - **Deployment**: Render (backend), GitHub Pages (frontend)
+- **Version Control**: Git and GitHub
+- **AI Integration**: Gemini API for chat functionalities
 
 ## Installation
-
+1. Clone the repository
 ```bash
-# Clone the repository
 git clone https://github.com/igiamronit/chatapp-lamda.git
-
-# Navigate to the project directory
+```
+2. Navigate to the project directory
+```bash
 cd chatapp-lamda
-
-# Install server dependencies
+```
+3. Install dependencies for both server and client
+```bash
 cd server
 npm install
-
-# Install client dependencies
 cd ../client
 npm install
-
-# Set up environment variables as needed
 ```
-
+4.  Set up environment variables as needed
 ## Usage
 
 ### Running the server
@@ -87,6 +90,9 @@ Firebase Firestore is used to store chat messages and room information, while Fi
 
 ### Image Sharing
 Users can upload and share images using the imgBB API integration.
+
+### AI personas
+The application integrates with the Gemini API to provide AI chat functionalities. Users can interact with three different personas: Friendly, Roaster, and Tech Support.
 
 ## Future Enhancements
 - End-to-end encryption

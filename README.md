@@ -1,4 +1,4 @@
-# Ctrl-Alt-Elite: Real-time Chat Application
+# Ctrl-Alt-Elite: Real-time Chat Application with AI
 
 ## Overview
 Ctrl-Alt-Elite is a feature-rich real-time chat application developed for Lambda Spring Camp. This application enables seamless communication through instant messaging, image sharing, and collaborative spaces.

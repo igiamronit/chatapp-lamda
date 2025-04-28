@@ -23,8 +23,8 @@ function Chat({ socket, username, room, userId }) {
   const [imageUrl, setImageUrl] = useState(null); //image support
   const [uploading, setUploading] = useState(false);
   const [typingUsers, setTypingUsers] = useState([]); //for typing indicator
-  const typingTimeoutRef = useRef(null); 
-  const getFirstName = (name) => name.split(' ')[0];
+  const typingTimeoutRef = useRef(null);  //typingtimeout
+  const getFirstName = (name) => name.split(' ')[0]; //to show only first name in typing indicator
   const [selectedPersona, setSelectedPersona] = useState('Friendly'); //default is Friendly(I am nice)
   const [aiThinking, setAiThinking] = useState(false); //for AI thinking indicator
 
@@ -42,7 +42,7 @@ function Chat({ socket, username, room, userId }) {
   }
 
   const deleteRoomMessages = async () => {
-    if (!room) return;
+    if (!room) return; //return if not a valid room
   
     try {
       const roomMessagesRef = collection(db, 'rooms', room, 'messages');
@@ -54,7 +54,7 @@ function Chat({ socket, username, room, userId }) {
       //console.log(`All messages in room "${room}" have been deleted.`);
       setMessageList([]); // Clear the local message list
     } catch (error) {
-      //console.error('Error deleting room messages:', error);
+      console.error('Error deleting room messages:', error);
     }
   };
 
@@ -109,27 +109,21 @@ function Chat({ socket, username, room, userId }) {
       } catch (e) {
         console.error('Error adding document: ', e);
       }
-
-      console.log('Sending message:', {
-        message: imageUrl ? null : currentMessage,
-        image: imageUrl || null,
-      });
-
       setCurrentMessage('');
       setImageUrl(null);
     }
   };
-
+  //handles image upload
   const handleImageUpload = async (file) => {
-    if (!file) return;
+    if (!file) return; //if no file found
 
-    setUploading(true);
+    setUploading(true); //loading indicator
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('image', file); //append image to formdata
 
     try {
       const response = await fetch(
-        'https://api.imgbb.com/1/upload?key=4f494fa3be2a8c7ee8c1d6850ed8b345',
+        'https://api.imgbb.com/1/upload?key=4f494fa3be2a8c7ee8c1d6850ed8b345', //imgbb api
         {
           method: 'POST',
           body: formData,
@@ -151,11 +145,11 @@ function Chat({ socket, username, room, userId }) {
 
   //Ask AI
   const askAI = async () => {
-    if (!currentMessage.trim()) return;
+    if (!currentMessage.trim()) return; //if no message found
     
-    setAiThinking(true);
+    setAiThinking(true); //thinking indicator
     try {
-      const res = await fetch('https://chatapp-lamda.onrender.com/api/ai/ask', {
+      const res = await fetch('https://chatapp-lamda.onrender.com/api/ai/ask', { //link to response from AI
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -165,26 +159,27 @@ function Chat({ socket, username, room, userId }) {
       });
     
       if (!res.ok) {
-        throw new Error(`Server responded with status: ${res.status}`);
+        throw new Error(`Server responded with status: ${res.status}`); //error
       }
       
       const data = await res.json();
       
       if (!data || !data.reply) {
-        throw new Error('Invalid AI response received');
+        throw new Error('Invalid AI response received'); //error
       }
       
       const aiMessage = {
         room,
         author: `${selectedPersona}Bot`,
-        authorId: 'ai_bot',
+        authorId: 'ai_bot', //fixed id for AI(all personas)
         message: data.reply,
-        image: null,
+        image: null, //AI cant send images
         time: new Date().toLocaleTimeString(),
         timestamp: serverTimestamp(),
       };
     
-      await addDoc(collection(db, 'rooms', room, 'messages'), aiMessage);
+      await addDoc(collection(db, 'rooms', room, 'messages'), aiMessage); //add AI message to firestore
+      //emit AI message like normal message
       socket.emit('send_message', aiMessage);
       setCurrentMessage('');
     } catch (error) {

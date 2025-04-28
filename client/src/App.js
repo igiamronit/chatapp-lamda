@@ -9,11 +9,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 
 // backend URL
-const socket = io("https://chatapp-lamda.onrender.com");
-
-
-
-
+const socket = io("https://chatapp-lamda.onrender.com"); //backend URL
 
 export default function App() {
 
@@ -21,14 +17,13 @@ export default function App() {
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
- 
+  
   //function to create a room
   const createRoom = async() =>{
     if( user && room.trim()!== ""){
       try{
-        await setDoc(doc(db, "rooms", room), {roomID: room});
-        //setRoom("");
-        joinRoom();
+        await setDoc(doc(db, "rooms", room), {roomID: room}); //creates a new room in Firestore with the room ID
+        joinRoom(); //join room normally after creating it
       }catch(err){
       console.error(err);
       }
@@ -37,9 +32,6 @@ export default function App() {
       alert("Please enter a valid room ID");
     }
   }
-
-
-
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -59,7 +51,7 @@ export default function App() {
       try {
         const roomDoc = await getDoc(doc(db, "rooms", room)); // Check if room exists in Firestore
         if (roomDoc.exists()) {
-          socket.emit('join_room', room);
+          socket.emit('join_room', room); //emits join_room event to the server with the room ID
           setShowChat(true); // Show the chat component
         } else {
           alert("Enter a valid room ID.");
